@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impact Jet Experiment - Fluid Mechanics</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e8f5e9;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 28px;
+        }
+        .container {
+            width: 85%;
+            margin: 30px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            width: 60%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 16px;
+            color: #333;
+        }
+        input, button {
+            padding: 12px;
+            font-size: 16px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #2c3e50;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #34495e;
+        }
+        .results {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .results h3 {
+            font-size: 22px;
+            margin-top: 0;
+        }
+        .section-header {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 30px;
+            color: #2c3e50;
+        }
+        .formula-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+        .formula-section pre {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+        .code-link {
+            color: #2c3e50;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .code-block {
+            display: none;
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .code-block pre {
+            font-family: 'Courier New', Courier, monospace;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Impact Jet Experiment - Fluid Mechanics
+</header>
+
+<div class="container">
+    <h2>Impact Jet Force and Discharge Calculation</h2>
+
+    <!-- Image of the experiment -->
+    <img src="impact2.png" alt="Impact Jet Experiment">
+
+    <!-- Aim, Process, Application, and Setup Section -->
+    <div>
+        <div class="section-header">Aim</div>
+        <p>The aim of the impact jet experiment is to calculate the forces exerted by a jet of fluid and the discharge based on the mass, velocity, and area of the nozzle.</p>
+        
+        <div class="section-header">Process</div>
+        <p>The process involves measuring the velocity of a jet, calculating the mass, and determining the nozzle area. Using these parameters, we calculate the actual force exerted by the fluid and the theoretical force according to fluid mechanics equations.</p>
+        
+        <div class="section-header">Application</div>
+        <p>This experiment is used in various fields, including fluid mechanics, mechanical engineering, and civil engineering. It is important for understanding jet propulsion, hydraulic systems, and optimizing nozzle designs in industrial applications.</p>
+        
+        <div class="section-header">Setup</div>
+        <p>The experimental setup involves a jet of fluid directed at a surface. Key components include the fluid supply system, a nozzle, a measuring device for velocity, and a scale to measure the mass of the fluid. Accurate measurements are crucial for obtaining precise results.</p>
+    </div>
+
+    <!-- Formula Section -->
+    <div class="formula-section">
+        <div class="section-header">Formulas Used:</div>
+        <pre>
+1. Actual Force: F_actual = m * g
+   Where:
+   - m = mass (kg)
+   - g = gravitational acceleration (9.81 m/s²)
+
+2. Theoretical Force: F_theoretical = 2 * ρ * A * v²
+   Where:
+   - ρ = density of fluid (kg/m³)
+   - A = area of nozzle (m²)
+   - v = velocity (m/s)
+
+3. Discharge: Q = A * v
+   Where:
+   - A = area of nozzle (m²)
+   - v = velocity (m/s)
+        </pre>
+    </div>
+
+    <!-- Input form for experiment parameters -->
+    <form id="calculationForm">
+        <div class="form-group">
+            <label for="velocity">Velocity (m/s):</label>
+            <input type="number" name="velocity" id="velocity" placeholder="Enter velocity" required>
+        </div>
+
+        <div class="form-group">
+            <label for="mass">Mass (kg):</label>
+            <input type="number" name="mass" id="mass" placeholder="Enter mass" required>
+        </div>
+
+        <div class="form-group">
+            <label for="density">Density of Water (kg/m³):</label>
+            <input type="number" name="density" id="density" value="1000" required>
+        </div>
+
+        <div class="form-group">
+            <label for="nozzle_area">Nozzle Area (m²):</label>
+            <input type="number" name="nozzle_area" id="nozzle_area" value="0.504" required>
+        </div>
+
+        <button type="button" onclick="calculate()">Calculate</button>
+    </form>
+
+    <!-- Results Section -->
+    <div class="results" id="results"></div>
+
+    <!-- Link to open C code block -->
+    <p><span class="code-link" onclick="toggleCodeBlock()">Click here for the C Code</span></p>
+
+    <!-- C Code Block (Hidden initially) -->
+    <div class="code-block" id="codeBlock">
+        <h3>C Code for Calculation:</h3>
+        <pre>
+// C code here removed for brevity
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define GRAVITY 9.81
+
+int main() {
+    double velocity, mass, density, nozzle_area;
+
+    // Get the input values from the HTML form
+    char *data;
+    data = getenv("QUERY_STRING");
+
+    if (data == NULL) {
+        printf("Content-Type: text/html\n\n");
+        printf("<html><body><h1>Error: No data received.</h1></body></html>");
+        return 1;
+    }
+
+    // Parse input values from the query string
+    sscanf(data, "velocity=%lf&mass=%lf&density=%lf&nozzle_area=%lf", 
+           &velocity, &mass, &density, &nozzle_area);
+
+    // Calculations
+    double actualForce = mass * GRAVITY;
+    double theoreticalForce = 2 * density * nozzle_area * pow(velocity, 2);
+    double discharge = velocity * nozzle_area;
+
+    // Output the result in HTML format
+    printf("Content-Type: text/html\n\n");
+    printf("<html><body>");
+    printf("<h2>Impact Jet Experiment - Results</h2>");
+    printf("<p><strong>Actual Force:</strong> %.2f N</p>", actualForce);
+    printf("<p><strong>Theoretical Force:</strong> %.2f N</p>", theoreticalForce);
+    printf("<p><strong>Discharge:</strong> %.2f m³/s</p>", discharge);
+    printf("</body></html>");
+
+    return 0;
+}
+        </pre>
+    </div>
+</div>
+
+<script>
+// JavaScript function to calculate the forces and discharge
+function calculate() {
+    const velocity = parseFloat(document.getElementById('velocity').value);
+    const mass = parseFloat(document.getElementById('mass').value);
+    const density = parseFloat(document.getElementById('density').value);
+    const nozzleArea = parseFloat(document.getElementById('nozzle_area').value);
+
+    if (isNaN(velocity) || isNaN(mass) || isNaN(density) || isNaN(nozzleArea)) {
+        alert('Please enter valid values for all fields.');
+        return;
+    }
+
+    // Calculations
+    const gravity = 9.81; // m/s²
+    const actualForce = mass * gravity;  // Actual force: F = m * g
+    const theoreticalForce = 2 * density * nozzleArea * Math.pow(velocity, 2);  // Theoretical force: F = 2 * ρ * A * v²
+    const discharge = velocity * nozzleArea;  // Discharge: Q = A * v
+
+    // Display results
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = `
+        <h3>Results:</h3>
+        <p><strong>Actual Force:</strong> ${actualForce.toFixed(2)} N</p>
+        <p><strong>Theoretical Force:</strong> ${theoreticalForce.toFixed(2)} N</p>
+        <p><strong>Discharge:</strong> ${discharge.toFixed(2)} m³/s</p>
+    `;
+}
+
+// Function to toggle the visibility of the C code block
+function toggleCodeBlock() {
+    const codeBlock = document.getElementById('codeBlock');
+    if (codeBlock.style.display === 'none' || codeBlock.style.display === '') {
+        codeBlock.style.display = 'block';
+    } else {
+        codeBlock.style.display = 'none';
+    }
+}
+</script>
+
+</body>
+</html>
